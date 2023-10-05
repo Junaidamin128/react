@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { NavLink, useNavigate, Navigate } from 'react-router-dom';
 
 function Login() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [logedin, setLogedin] = useState(localStorage.getItem("token") ? true : false);
 
   const onSubmit = async (evt) => {
     evt.preventDefault();
@@ -16,9 +18,9 @@ function Login() {
         username: email.value,
         password: password.value,
       });
-      if(res.data?.token)
-      {
+      if (res.data?.token) {
         localStorage.setItem("token", res.data.token);
+        setLogedin(true);
       }
     } catch (err) {
       if (err.response?.data) {
@@ -34,7 +36,13 @@ function Login() {
       }
       console.log(err.response.data);
     }
+
   };
+
+
+  if (logedin) {
+    // return <Navigate replace to="/" />
+  }
 
   return (
     <>
@@ -76,6 +84,8 @@ function Login() {
           Sign in
         </button>
       </form>
+      <NavLink className="btn btn-success" type="submit" to="/signup" >Create New Account</NavLink>
+
     </>
   );
 }

@@ -24,6 +24,23 @@ router.post("/create", authRoute, async (req, res) => {
   }
 });
 
+router.get("/populate", async (req, res)=>{
+  // 651eaa5bda39745f6fafa947
+  // 651eaa5bda39745f6fafa949
+  let uids = ["651eaa5bda39745f6fafa949", "651eaa5bda39745f6fafa947"];
+  await NoteModel.deleteMany({});
+  for (let i = 0; i < 100; i++) {
+    let newNote = new NoteModel({
+      title: `Note - ${i}`,
+      content: "loremipsum dolalasfkl aslkdfjlaks ",
+      userid: new mongoose.Types.ObjectId(Math.random()>0.5?uids[0]:uids[1]),
+    });
+    await newNote.save();
+    console.log("New Note");
+  }
+  res.send("i");
+});
+
 router.put("/:id/update", authRoute, async (req, res) => {
   let data = req.body;
   let noteid = new mongoose.Types.ObjectId(req.params.id);

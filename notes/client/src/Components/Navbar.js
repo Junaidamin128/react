@@ -23,7 +23,7 @@ function Navbar() {
         </li>
       </ul>
       <form className="d-flex">
-        <NavLink className="btn btn-success" type="submit" to="/signin" >Login</NavLink>
+        <NavLink className="btn btn-success" type="submit" to="/login" >Login</NavLink>
       </form>
     </div>
   </div>

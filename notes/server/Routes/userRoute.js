@@ -4,6 +4,10 @@ import jwt from "jsonwebtoken";
 
 const router = Router();
 
+router.get('/', async(req, res)=>{
+  res.json({user: req.user});
+})
+
 router.post("/register", async (req, res) => {
   let data = req.body;
   try {
@@ -20,6 +24,20 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ msg: error });
   }
 });
+
+router.get("/populate", async (req, res) => {
+  for (let i = 0; i < 10; i++) {
+    let newUser = new userModel({
+      username: `user${i}`,
+      email: `user${i}@gmail.com`,
+      password: 'admin',
+    });
+    newUser.populate('username');
+    await newUser.save();
+    console.log("i", i);
+  }
+  res.send("i");
+})
 
 router.post("/login", async (req, res) => {
   let data = req.body;
