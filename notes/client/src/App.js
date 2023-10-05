@@ -5,38 +5,42 @@ import Login from "./Components/Login";
 import Register from "./Components/Register";
 import User from "./Components/User";
 import { useEffect, useState } from "react";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <RoutesLayout />,
-    children: [
-      { path: "", element: <Home /> },
-      { path: "signin", element: <Login /> },
-      { path: "signup", element: <Register /> }
-    ]
-  }
-]);
-
-
+import Navbar from "./Components/Navbar";
+import axios from "axios";
 
 function App() {
 
   const [user, setUser] = useState(null);
-  useEffect(function () {
-    setUser({ name: "Moin" });
-  }, []);
+  const [loading, setLoading] = useState(true);
+let dots = 100;
 
-  function ProtectRoute({ negate, path }) {
-    let token = localStorage.getItem("token");
-    let auth = false;
-    if (token) {
-      auth = true;
-      if(!user){
-        auth = false;
+  useEffect(() => {
+    async function loadUser() {
+      let token = localStorage.getItem("token");
+      if (!token) {
+        stopLoading();
+        setUser(null);
+        return;
       }
+      let res = await axios.get("http://localhost:3345/user", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setUser(res.data.user);
+      stopLoading();
     }
 
+    loadUser();
+  }, []);
+
+  function stopLoading()
+  {
+    setLoading(false);
+  }
+
+  function ProtectRoute({ negate, path }) {
+    let auth = user ? true : false;
     if (negate) {
       auth = !auth;
     }
@@ -45,28 +49,28 @@ function App() {
 
   return (
     <>
-
       <BrowserRouter>
+        {/* Navbar */}
+        <Navbar user={user} />
         {/* Routes */}
-        <Routes>
-          {/* Layout */}
-          <Route  path="/" element={<RoutesLayout />} >
-            {/* Protected */}
-            <Route element={<ProtectRoute />}>
-              <Route path="" element={<Home />} />
-              <Route path="/user" element={<User />} />
-            </Route>
-            {/* Must be not login */}
-            <Route element={<ProtectRoute path="/" negate={true} />}>
-              <Route path="login" element={<Login />} />
-            </Route>
-
-            {/* Unprotected Routes */}
-
-          </Route>
-          {/* Layout */}
-        </Routes>
-        {/* Routes */}
+        <div className="container">
+          {/* Routes */}
+          {loading ? <h1>Loading{".".repeat(dots)}</h1> :
+            <Routes>
+              {/* Protected */}
+              <Route element={<ProtectRoute />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/user" element={<User />} />
+              </Route>
+              {/* Must be not login */}
+              <Route element={<ProtectRoute path="/" negate={true} />}>
+                <Route path="login" element={<Login />} />
+              </Route>
+              {/* Unprotected Routes */}
+            </Routes>
+          }
+          {/* Routes */}
+        </div>
       </BrowserRouter>
     </>
   )
