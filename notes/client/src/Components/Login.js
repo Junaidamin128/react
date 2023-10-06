@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { NavLink, useNavigate, Navigate } from 'react-router-dom';
 
-function Login() {
+function Login({loadUser}) {
+  const navigate = useNavigate();
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [logedin, setLogedin] = useState(localStorage.getItem("token") ? true : false);
-  
+
   const onSubmit = async (evt) => {
     evt.preventDefault();
     let form = evt.target;
@@ -20,8 +20,9 @@ function Login() {
       });
       if (res.data?.token) {
         localStorage.setItem("token", res.data.token);
-        setLogedin(true);
+        loadUser();
       }
+      // navigation("/")
     } catch (err) {
       if (err.response?.data) {
         let data = err.response.data;
@@ -34,15 +35,12 @@ function Login() {
           setPasswordError(data.msg);
         }
       }
-      console.log(err.response.data);
+      console.log(err.response?.data, err);
     }
-
+    
   };
 
 
-  if (logedin) {
-    // return <Navigate replace to="/" />
-  }
 
   return (
     <>
@@ -76,6 +74,7 @@ function Login() {
               type="password"
               className="form-control"
               id="inputPassword3"
+              value="admin"
             />
             {passwordError}
           </div>
@@ -83,8 +82,8 @@ function Login() {
         <button type="submit" className="btn btn-primary">
           Sign in
         </button>
-      </form>
       <NavLink className="btn btn-success" type="submit" to="/signup" >Create New Account</NavLink>
+      </form>
 
     </>
   );

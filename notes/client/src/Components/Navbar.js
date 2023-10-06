@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-function Navbar({ user }) {
+function Navbar({ user, setUser }) {
   const navigation = useNavigate();
   return (
     <>
@@ -26,10 +26,10 @@ function Navbar({ user }) {
             <form className="d-flex">
               {user && user.username}
               {user ?
-                <a className="btn btn-success" onClick={() => {
+                <a href = "/" className="btn btn-success" onClick={() => {
                   localStorage.removeItem("token");
                   navigation("/");
-                  
+                  setUser(null);
                 }} >Logout</a> :
                 <NavLink className="btn btn-success" type="submit" to="/login" >Login</NavLink>}
             </form>
