@@ -17,11 +17,13 @@ router.post("/register", async (req, res) => {
       password: data["password"],
     });
     await newUser.save();
-    console.log("new User");
-
-    res.json({ msg: "success" });
+    let payload = JSON.parse(JSON.stringify(newUser));
+    let token = jwt.sign(payload,process.env.SECRET_KEY,{
+      expiresIn : "1h"
+    })
+    res.json({token})
   } catch (error) {
-    res.status(500).json({ msg: error });
+    res.status(401).json({ msg: "User already exist", name: "form" });
   }
 });
 

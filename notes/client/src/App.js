@@ -8,12 +8,15 @@ import { useEffect, useState } from "react";
 import Navbar from "./Components/Navbar";
 import axios from "axios";
 import Loader from "./Components/small/Loader";
+import AddNote from "./Components/AddNote";
 
 function App() {
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [tick, setTick] = useState(0);
+  const [notes, setNotes] = useState(null);
+
 
   function tickIt() {
     setTick(tick + 1);
@@ -23,21 +26,39 @@ function App() {
     loadUser();
   }, []);
 
+
+
   const loadUser = async () => {
     let token = localStorage.getItem("token");
     if (!token) {
       stopLoading();
       setUser(null);
+      setNotes(null);
       return;
     }
-    let res = await axios.get("http://localhost:3345/user", {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    setUser(res.data.user);
+    axios.all([
+      await axios.get("http://localhost:3345/user", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }),
+      await axios.get("http://localhost:3345/note", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+    ]).then(
+      axios.spread((user, note) => {
+        setNotes(note.data);
+        setUser(user.data)
+      })
+    )
     stopLoading();
+
+
+    // loadNotes();
   }
+
 
   function stopLoading() {
     setLoading(false);
@@ -60,16 +81,17 @@ function App() {
         <div className="container">
           {/* Routes */}
           {loading ? <Loader /> :
-            <Routes>
+            <Routes>  
               {/* Protected */}
               <Route element={<ProtectRoute />}>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Home notes={notes} />} />
                 <Route path="/user" element={<User />} />
+                <Route path="/addnote" element={<AddNote />} />
               </Route>
               {/* Must be not login */}
               <Route element={<ProtectRoute path="/" negate={true} />}>
                 <Route path="login" element={<Login loadUser={loadUser} />} />
-                <Route path="signup" element={<Register />}/>
+                <Route path="signup" element={<Register loadUser={loadUser} />} />
               </Route>
               {/* Unprotected Routes */}
             </Routes>

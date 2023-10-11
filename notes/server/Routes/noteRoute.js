@@ -20,7 +20,7 @@ router.post("/create", authRoute, async (req, res) => {
     console.log("New Note");
     res.json({ msg: "Note created successfully" });
   } catch (err) {
-    res.status(500).Json({msg:"Note cannot be created"});
+    res.status(401).Json({msg:"Note cannot be created", name: 'form'});
   }
 });
 
