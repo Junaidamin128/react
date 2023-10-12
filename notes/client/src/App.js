@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Outlet, Route, RouterProvider, Routes, createBrowserRouter } from "react-router-dom";
+import { BrowserRouter, Navigate, Outlet, Route, RouterProvider, Routes, createBrowserRouter, useNavigate } from "react-router-dom";
 import RoutesLayout from "./RoutesLayout";
 import Home from "./Components/Home";
 import Login from "./Components/Login";
@@ -9,13 +9,16 @@ import Navbar from "./Components/Navbar";
 import axios from "axios";
 import Loader from "./Components/small/Loader";
 import AddNote from "./Components/AddNote";
+import Note from "./Components/Note";
 
 function App() {
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [tick, setTick] = useState(0);
-  const [notes, setNotes] = useState(null);
+  const [note, setNote] = useState(null);
+  // const navigate = useNavigate();
+
 
 
   function tickIt() {
@@ -27,32 +30,48 @@ function App() {
   }, []);
 
 
+  const loadNote = async (id) =>{
+    // console.log(id)
+    try{
+      let res = await axios.get(`http://localhost:3345/note/${id}`);
+      setNote(res.data)
+      stopLoading();
+    }catch(err){
+      console.log(err)
+    }
+  }
+
 
   const loadUser = async () => {
     let token = localStorage.getItem("token");
     if (!token) {
       stopLoading();
       setUser(null);
-      setNotes(null);
       return;
     }
-    axios.all([
-      await axios.get("http://localhost:3345/user", {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }),
-      await axios.get("http://localhost:3345/note", {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-    ]).then(
-      axios.spread((user, note) => {
-        setNotes(note.data);
-        setUser(user.data)
-      })
-    )
+    let res = await axios.get("http://localhost:3345/user",{
+      headers:{
+        Authorization: `bearer ${token}`
+      }
+    });
+    // axios.all([
+    //   await axios.get("http://localhost:3345/user", {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`
+    //     }
+    //   }),
+    //   await axios.get("http://localhost:3345/note", {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`
+    //     }
+    //   })
+    // ]).then(
+    //   axios.spread((user, note) => {
+    //     setNotes(note.data);
+    //     setUser(user.data)
+    //   })
+    // )
+    setUser(res.data.user)
     stopLoading();
 
 
@@ -84,9 +103,10 @@ function App() {
             <Routes>  
               {/* Protected */}
               <Route element={<ProtectRoute />}>
-                <Route path="/" element={<Home notes={notes} />} />
+                <Route path="/" element={<Home loadNote={loadNote} />} />
                 <Route path="/user" element={<User />} />
                 <Route path="/addnote" element={<AddNote />} />
+                <Route path = "/note/:id" element={<Note note={note} />} />
               </Route>
               {/* Must be not login */}
               <Route element={<ProtectRoute path="/" negate={true} />}>

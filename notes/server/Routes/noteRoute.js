@@ -82,7 +82,7 @@ router.get("/", async (req, res) => {
   // res.send("All notes");
 });
 
-router.delete("/:id/delete", authRoute, async (req, res) => {
+router.delete("/delete/:id", authRoute, async (req, res) => {
   //check author is current user
   let noteId=new  mongoose.Types.ObjectId(req.params.id);
   let authuserid  = req.user._id

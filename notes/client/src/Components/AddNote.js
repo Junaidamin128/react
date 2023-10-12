@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React from 'react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function AddNote() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [error, setError] = useState("")
+    const navigate = useNavigate();
 
 
     const handleSubmit = async (evt) => {
@@ -13,12 +15,14 @@ function AddNote() {
         let token = localStorage.getItem("token");
         try {
             await axios.post("http://localhost:3345/note/create", {
-                headers: {
-                    Authorization: `bearer ${token}`
-                }},{
                 title: title,
                 content: content
+            } , {
+                headers: {
+                    Authorization: `bearer ${token}`
+                }
             })
+
         } catch (err) {
             if (err.response?.data) {
                 let data = err.response.data;
@@ -28,8 +32,8 @@ function AddNote() {
                 }
             }
         }
-
-
+        
+        navigate("/");
     }
 
     return (
