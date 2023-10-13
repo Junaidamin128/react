@@ -41,7 +41,7 @@ router.get("/populate", async (req, res)=>{
   res.send("i");
 });
 
-router.put("/:id/update", authRoute, async (req, res) => {
+router.put("/update/:id", authRoute, async (req, res) => {
   let data = req.body;
   let noteid = new mongoose.Types.ObjectId(req.params.id);
   let note = await NoteModel.findOne({ _id: noteid });
@@ -53,12 +53,12 @@ router.put("/:id/update", authRoute, async (req, res) => {
           "content":data["content"]
         }
       })
-      res.send('Note updated successfully');
+      res.json({msg:'Note updated successfully', name:"success"});
     } catch (err) {
-      res.json({ msg: "Note cannot be updated" });
+      res.status(400).json({ msg: "Note cannot be updated" , name : "unsuccess"});
     }
   }else{
-    res.status(403).send("Not authorize for edit the note");
+    res.status(403).json({msg:"Not authorize for edit the note", name:"notauth"});
   }
 });
 

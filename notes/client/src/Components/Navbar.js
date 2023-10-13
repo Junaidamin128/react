@@ -15,13 +15,7 @@ function Navbar({ user, setUser }) {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <NavLink className="nav-link active" aria-current="page" to="/">Home</NavLink>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/">Link</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link disabled" href="/" tabIndex="-1" aria-disabled="true">Disabled</a>
-              </li>
+             </li>
             </ul>
             <form className="d-flex">
               {user && user.username}

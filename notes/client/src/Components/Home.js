@@ -30,8 +30,18 @@ function Home({ loadNote }) {
   }
 
   const deleteNote = async (id)=>{
+    let token = localStorage.getItem('token');
+    if(!token){
+      return;
+    }
     try{
-      await axios.delete(`http://localhost:3345/delete/${id}`);
+      await axios.delete(`http://localhost:3345/note/delete/${id}`,{
+      headers:{
+        Authorization: `bearer ${token}`
+      }
+    });
+    loadNotes();
+    setSelectedNote(null);
     }catch(err){
       console.log(err)
     }
@@ -53,7 +63,7 @@ function Home({ loadNote }) {
                 <div className="card-body">
                   <h5 className="card-title" onClick={async () => { await loadNote(note._id); navigate(`/note/${note._id}`) }}>{note.title}</h5>
                   <p className="card-text">{note.content}</p>
-                  <button type="button" className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editNote" onClick={() => { setSelectedNote(note) }}>
+                  <button type="button" className="btn btn-danger" onMouseEnter={() => { setSelectedNote(note)}} data-bs-toggle="modal" data-bs-target="#deleteNote" >
                     Remove
                   </button>
                 </div>
@@ -61,7 +71,7 @@ function Home({ loadNote }) {
 
             )
           })}
-          {selectedNote ? <div className="modal fade" id="editNote" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          {selectedNote ? <div className="modal fade" id="deleteNote" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
@@ -69,11 +79,11 @@ function Home({ loadNote }) {
                   <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body">
-                  Do you really want to delete {selectedNote.title}
+                  <p>Do you really want to delete <strong>{selectedNote.title}</strong></p>
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" className="btn btn-danger" onClick={()=>{deleteNote(selectedNote._id)}}>Delete Note</button>
+                  <button type="button" className="btn btn-danger" onClick={()=>{deleteNote(selectedNote._id)}} data-bs-dismiss="modal">Delete Note</button>
                 </div>
               </div>
             </div>

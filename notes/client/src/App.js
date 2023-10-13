@@ -106,7 +106,7 @@ function App() {
                 <Route path="/" element={<Home loadNote={loadNote} />} />
                 <Route path="/user" element={<User />} />
                 <Route path="/addnote" element={<AddNote />} />
-                <Route path = "/note/:id" element={<Note note={note} />} />
+                <Route path = "/note/:id" element={<Note note={note} loadNote={loadNote} />} />
               </Route>
               {/* Must be not login */}
               <Route element={<ProtectRoute path="/" negate={true} />}>
