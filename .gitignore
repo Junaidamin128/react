@@ -1,2 +1,10 @@
 *.env
 todo_redux
+*/node_modules
+*/.git
+*/.gitignore
+*/.firebase
+*/firebase.json
+*/.firebaserc
+*/.eslintrc.cjs
+portfolio/dist
