@@ -1,0 +1,66 @@
+@import '../../App.scss';
+
+.about {
+    background-color: $background-s;
+
+    .skills-main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        .heading{
+            font-size: 35px;
+        }
+        
+        @media (max-width:991.98px){
+
+            .btn-custom{
+                display: block;
+                margin: auto;
+            }
+        }
+        .skill-detail {
+            margin-top: 20px;
+
+
+            .skills-list {
+                list-style: none;
+                padding: 0;
+
+
+                .skill-item {
+                    margin-bottom: 15px;
+
+                    .skill-name {
+                        font-weight: bold;
+                        margin-bottom: 5px;
+                        color: $text;
+                    }
+
+                    .progress-bar {
+                        background-color: #f3f3f3;
+                        // border-radius: 0;
+                        overflow: hidden;
+                        position: relative;
+
+
+                        .progress {
+                            background-color: $purple;
+                            height: 20px;
+                            border-radius: 0;
+                            transition: width 0.5s ease;
+                            position: relative;
+
+                            .progress-text {
+                                position: absolute;
+                                right: 0;
+                                transform: translateX(-15px);
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

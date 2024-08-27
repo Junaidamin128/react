@@ -1,0 +1,10 @@
+
+*.env
+*/build
+*/node_modules
+*/.git
+*/.gitignore
+*/.firebase
+*/firebase.json
+*/.firebaserc
+*/.eslintrc.cjs

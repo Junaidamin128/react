@@ -1,0 +1,79 @@
+@import '../../App.scss';
+
+#footer {
+    background-color: $purple;
+    color: $white;
+    padding: 20px 0;
+    text-align: center;
+
+    .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+
+        .footer-logo {
+            h2 {
+                font-size: 1.8rem;
+                margin: 0;
+                font-weight: 700;
+            }
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+
+            a {
+                color: $white;
+                text-decoration: none;
+                font-size: 1rem;
+                transition: color 0.3s;
+                position: relative;
+                padding: 5px;
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 0;
+                    transition: width 0.3s linear;
+                    height: 2px;
+                    background-color: $yellow;
+                }
+
+
+                &:hover {
+                    color: $yellow;
+                    &:after{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 20px;
+
+            a {
+                color: $white;
+                text-decoration: none;
+                font-size: 1rem;
+                transition: color 0.3s;
+
+                &:hover {
+                    color: $yellow;
+                }
+            }
+        }
+
+    }
+
+    .footer-bottom {
+        margin-top: 20px;
+        font-size: 0.9rem;
+    }
+
+}

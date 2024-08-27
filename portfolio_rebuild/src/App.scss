@@ -1,0 +1,104 @@
+$background : #f1f3ff;
+$background-s : #f9faff;
+$purple: #6f34fe;
+$yellow: #fca61f;
+$yellow-50: #fca71f8a;
+$text: #3f396d;
+$greenish: #56CBBD;
+$greenish-50: #56cbbd86;
+$white: #fff;
+$black : #242424;
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&family=Nerko+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'barlow', sans-serif;
+}
+
+.section{
+  padding: 50px 0;
+}
+.sub-heading{
+  color: $yellow;
+  font-size: 18px;
+  font-weight: 600;
+}
+.heading{
+  color: $purple;
+  font-weight: 700;
+}
+.btn-custom{
+  background-color: $yellow;
+  color: $white;
+  transition: all .3s ease;
+  padding: 10px 35px;
+  border-radius: 50px;
+  border: 3px solid transparent;
+  font-weight: 600;
+  font-size: 18px;
+  &:hover{
+    background-color: $white;
+    color: $text;
+    border-color: $text;
+  }
+}
+
+
+
+
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@keyframes sliderShape {
+
+  0%,
+  100% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    transform: translate3d(0, 0, 0) rotateZ(0.01deg);
+  }
+
+  34% {
+    border-radius: 70% 30% 46% 54% / 30% 29% 71% 70%;
+    transform: translate3d(0, 5px, 0) rotateZ(0.01deg);
+  }
+
+  50% {
+    transform: translate3d(0, 0, 0) rotateZ(0.01deg);
+  }
+
+  67% {
+    border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
+    transform: translate3d(0, -3px, 0) rotateZ(0.01deg);
+  }
+}
+@keyframes typing {
+  0% { width: 0CH; }
+  10% { width: 6CH; }
+  90% { width: 6CH; }
+  100%{width: 0ch;}
+}
+@keyframes typing2 {
+  from {width: 0ch;}
+  to{width: 13ch;}
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
