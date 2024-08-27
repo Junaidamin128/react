@@ -1,0 +1,68 @@
+@import "../../App.scss";
+
+#home{
+    overflow: hidden;
+    background-color: $background;
+    padding-bottom: 0px;
+
+.home-detail{
+    z-index: 2;
+    .heading{  
+      font-weight: 600;    
+      .heading-tile, .heading-name {
+        display: inline-block;
+        border-right: 2px solid $yellow;
+        white-space: nowrap;
+        overflow: hidden;
+        color:  $text;
+        font-weight: 700;
+        font-size: 45px;
+        font-family: 'Nerko One', Courier, monospace;
+      }
+    
+      .heading-name {
+        &.animate{
+          animation:  typing 4s steps(5 , end) forwards, blink 0.75s step-end infinite;
+        }
+      }
+      
+      .heading-tile {
+      &.animate{
+        animation:  typing2 2s steps(30 , end) forwards, blink 0.75s step-end infinite;
+      }
+    }
+    }
+    .detail{
+      font-size: 18px;
+    }
+}
+.home-media{
+    position: relative;
+    cursor: none;
+
+
+&::before{
+    position: absolute;
+    content: "";
+    right: -108px;
+    bottom: -96px;
+    max-width: 690px;
+    max-height: 654px;
+    background: $greenish;
+    border-radius: 62% 47% 82% 35% / 45% 45% 80% 66%;
+    will-change: border-radius, transform, opacity;
+    animation: sliderShape 5s linear infinite;
+    display: block;
+    -webkit-animation: sliderShape 5s linear infinite;
+    height: 104%;
+    width: 135%;
+    @media(max-width:991.98px){
+      right: -54px;
+      bottom: -48px;
+    }
+}
+}
+
+}
+
+

@@ -1,5 +1,5 @@
 *.env
-todo_redux
+*/build
 */node_modules
 */.git
 */.gitignore
@@ -7,4 +7,3 @@ todo_redux
 */firebase.json
 */.firebaserc
 */.eslintrc.cjs
-portfolio/dist
